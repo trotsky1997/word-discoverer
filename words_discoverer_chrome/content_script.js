@@ -22,6 +22,9 @@ var function_key_is_pressed = false;
 var rendered_node_id = null;
 var node_to_render_id = null;
 
+import Translator from './translator.min.js';
+
+const translator = new Translator();
 
 function make_class_name(lemma) {
     if (lemma) {
@@ -135,7 +138,6 @@ function process_hl_leave() {
         hideBubble(false);
     }, 100);
 }
-
 
 function processMouse(e) {
     var hitNode = document.elementFromPoint(e.clientX, e.clientY);
@@ -262,7 +264,9 @@ function text_to_hl_nodes(text, dst) {
             last_hl_end_pos = match.end;
             //span = document.createElement("span");
             span = document.createElement("wdautohl-customtag");
-            span.textContent = text.slice(match.begin, last_hl_end_pos);
+            span.textContent = text.slice(match.begin, last_hl_end_pos);//hack入口
+            translator.add('en', {"text":span.textContent});
+            span.textContent = span.textContent + "("+translator.translateForKey("text","zh-CN")+")";
             span.setAttribute("style", text_style);
             span.id = 'wdautohl_id_' + cur_wd_node_id;
             cur_wd_node_id += 1;
