@@ -22,9 +22,103 @@ var function_key_is_pressed = false;
 var rendered_node_id = null;
 var node_to_render_id = null;
 
-import Translator from './translator.min.js';
+const 词典路径 = 'dict_data/dict'
+const 文件扩展 = '.json'
+var 词典文件 = {};
+var 词形文件 = {};
+for (var 文件序号 = 0; 文件序号 < 16; 文件序号++) {
+  词典文件[文件序号] = false;
+}
 
-const translator = new Translator();
+var 词典数据 = {};
+
+function 载入部分词典(文件) {
+  return function () {
+    var 文件路径 = 词典路径 + 文件 + 文件扩展;
+    fetch(chrome.runtime.getURL(文件路径))
+      .then((响应) => 响应.json())
+      .then((数据) => {
+        for (var 英文 in 数据) {
+          词典数据[英文] = 数据[英文];
+        }
+        词典文件[文件] = true;
+      });
+  }
+}
+
+for (var 文件 in 词典文件) {
+    载入部分词典(文件)();
+  }
+
+const Unique = {};
+const counts = {};
+
+function getFirstDefinition(entry) {
+if (!entry) {
+    return null;
+}
+if(entry.includes("\\n")) {
+    entry = entry.split("\\n")[0];
+}
+if(entry.includes(".")) {
+    entry = entry.split(".")[1];
+}
+if(entry.includes("]")) {
+    entry = entry.split("]")[1];
+}
+if(entry.includes(">")) {
+    entry = entry.split(">")[1];
+}
+if(entry.includes("】")) {
+    entry = entry.split("】")[1];
+}
+if(entry.includes("；")) {
+    entry = entry.split("；")[0];
+}
+if(entry.includes(";")) {
+    entry = entry.split(";")[0];
+}
+if(entry.includes(",")) {
+    entry = entry.split(",")[0];
+}
+if(entry.includes("，")) {
+    entry = entry.split("，")[0];
+}
+entry = entry.trim();
+if(entry.startsWith("(")){
+    entry = entry.split(")")[1];
+}
+if(entry.startsWith("（")){
+    entry = entry.split("）")[1];
+}
+if(entry.endsWith(")")){
+    entry = entry.split("(")[0];
+}
+if(entry.endsWith("）")){
+    entry = entry.split("（")[0];
+}
+return entry;
+}
+
+function 取释义(词典数据, 选中文本) {
+var 英文 = 选中文本.trim();
+if(!counts[选中文本]){
+    counts[选中文本] = 1;
+    res = getFirstDefinition(词典数据[英文]);
+    Unique[选中文本] = res;
+    return res;
+}
+else{
+    counts[选中文本] += 1;
+    if (counts[选中文本] <= 4 && Math.random() < 0.5){
+        return Unique[选中文本];
+    }
+}
+
+}
+
+
+
 
 function make_class_name(lemma) {
     if (lemma) {
@@ -265,8 +359,9 @@ function text_to_hl_nodes(text, dst) {
             //span = document.createElement("span");
             span = document.createElement("wdautohl-customtag");
             span.textContent = text.slice(match.begin, last_hl_end_pos);//hack入口
-            translator.add('en', {"text":span.textContent});
-            span.textContent = span.textContent + "("+translator.translateForKey("text","zh-CN")+")";
+            translated = 取释义(词典数据, span.textContent);
+            if(translated){
+            span.textContent += `(${translated})`;}
             span.setAttribute("style", text_style);
             span.id = 'wdautohl_id_' + cur_wd_node_id;
             cur_wd_node_id += 1;

@@ -39,7 +39,23 @@
   },
   "web_accessible_resources": [
     "eng_dict.txt",
-    "eng_idioms.txt"
+    "eng_idioms.txt",
+    "dict_data/dict1.json",
+    "dict_data/dict2.json",
+    "dict_data/dict3.json",
+    "dict_data/dict4.json",
+    "dict_data/dict5.json",
+    "dict_data/dict6.json",
+    "dict_data/dict7.json",
+    "dict_data/dict9.json",
+    "dict_data/dict10.json",
+    "dict_data/dict12.json",
+    "dict_data/dict15.json",
+    "dict_data/dict14.json",
+    "dict_data/dict13.json",
+    "dict_data/dict11.json",
+    "dict_data/dict8.json",
+    "dict_data/dict0.json"
   ],
   "content_scripts": [
     {
