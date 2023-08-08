@@ -58,7 +58,7 @@ if (!entry) {
     return null;
 }
 if(entry.includes("\\n")) {
-    entry = entry.split("\\n")[0];
+    entry = entry.replace("\\n"," ");
 }
 if(entry.includes(".")) {
     entry = entry.split(".")[1];
@@ -75,7 +75,6 @@ if(entry.includes("】")) {
 
 function makecleanentry(entry){
     entry = entry.trim();
-
 if(entry.startsWith("(")){
     entry = entry.split(")")[1];
 }
@@ -88,6 +87,10 @@ if(entry.endsWith(")")){
 if(entry.endsWith("）")){
     entry = entry.split("（")[0];
 }
+if(entry.includes(" ")) {
+    entry = entry.split(" ")[0];
+}
+
 return entry;
 }
 function mix2entry(entry,s){
@@ -96,10 +99,10 @@ function mix2entry(entry,s){
     }
     return entry;
 }
-for(var s of [",","，",";","；"]){
+for(var s of [";","；",",","，"]){
     entry = mix2entry(entry,s);
 }
-return entry;
+return makecleanentry(entry);
 }
 
 function 取释义(词典数据, 选中文本) {
