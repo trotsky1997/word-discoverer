@@ -1,6 +1,8 @@
-# Chrome Extension: Word Discoverer
+# WordDiscovererEx : A Chrome Extension for immersive word learning
 
 ## Description
+
+HACKED:ADD chinese explanation to new words to help vocabulary learning.
 
 Main purpose of this project is to improve reading experience for non-native speakers.
 
@@ -8,7 +10,6 @@ According to some observations reading behavior of native and non-native speaker
 Also native speakers have a higher probability to spot an unknown word or idiom in text they read.
 To help users spot new words and increase their vocabulary, rare words in text can be highlighted.
 Another way to help users is to highlight idioms, which sometimes can be very hard to recognize and isolate from surrounding text.
-
 
 ## Chrome extension
 
@@ -19,5 +20,5 @@ Another way to help users is to highlight idioms, which sometimes can be very ha
 
 ## Contributors
 
-[mechatroner](https://github.com/mechatroner) - Core functionality  
-[XQDD](https://github.com/XQDD) - Text-To-Speech idea and implementation  
+[mechatroner](https://github.com/mechatroner) - Core functionality
+[XQDD](https://github.com/XQDD) - Text-To-Speech idea and implementation
