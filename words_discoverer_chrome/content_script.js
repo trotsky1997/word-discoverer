@@ -72,19 +72,10 @@ if(entry.includes(">")) {
 if(entry.includes("】")) {
     entry = entry.split("】")[1];
 }
-if(entry.includes("；")) {
-    entry = entry.split("；")[0];
-}
-if(entry.includes(";")) {
-    entry = entry.split(";")[0];
-}
-if(entry.includes(",")) {
-    entry = entry.split(",")[0];
-}
-if(entry.includes("，")) {
-    entry = entry.split("，")[0];
-}
-entry = entry.trim();
+
+function makecleanentry(entry){
+    entry = entry.trim();
+
 if(entry.startsWith("(")){
     entry = entry.split(")")[1];
 }
@@ -96,6 +87,17 @@ if(entry.endsWith(")")){
 }
 if(entry.endsWith("）")){
     entry = entry.split("（")[0];
+}
+return entry;
+}
+function mix2entry(entry,s){
+    if(entry.includes(s)) {
+        entry = makecleanentry(entry.split(s)[0])+","+makecleanentry(entry.split(s)[1]);
+    }
+    return entry;
+}
+for(var s of [",","，",";","；"]){
+    entry = mix2entry(entry,s);
 }
 return entry;
 }
